@@ -1,6 +1,9 @@
 import logging
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers.typing import ConfigType
+import homeassistant.helpers.config_validation as cv
+from homeassistant.const import CONF_API_KEY
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.components.webhook import async_register as webhook_async_register
 from homeassistant.components.webhook import (
@@ -14,15 +17,18 @@ WEBHOOK_ID = "ansible_playbook_monitor_webhook"
 DISPATCHER_SIGNAL = f"{DOMAIN}_update_signal"
 PLATFORMS = ["sensor"]
 
+# Define a configuration schema to indicate this integration is config-entry only
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
-async def async_setup(hass: HomeAssistant, config: dict) -> bool:
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the integration."""
     return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up the integration from a config entry."""
-    api_key = entry.data.get("api_key")
+    api_key = entry.data.get(CONF_API_KEY)
 
     async def handle_webhook(hass, webhook_id, request):
         """Handle incoming webhook."""

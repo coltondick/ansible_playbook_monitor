@@ -5,12 +5,9 @@
   "documentation": "https://github.com/coltondick/ansible_playbook_monitor",
   "requirements": [],
   "dependencies": [],
-  "codeowners": [
-    "@coltondick"
-  ],
+  "codeowners": ["@coltondick"],
   "config_flow": true,
   "iot_class": "cloud_polling",
   "integration_type": "service",
-  "homeassistant": "2023.5.0",
   "issue_tracker": "https://github.com/coltondick/ansible_playbook_monitor/issues"
 }
