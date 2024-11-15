@@ -1,13 +1,13 @@
 {
   "domain": "ansible_playbook_monitor",
   "name": "Ansible Playbook Monitor",
-  "version": "0.1.1",
-  "documentation": "https://github.com/coltondick/ansible_playbook_monitor",
-  "requirements": [],
-  "dependencies": [],
   "codeowners": ["@coltondick"],
   "config_flow": true,
-  "iot_class": "cloud_polling",
+  "dependencies": [],
+  "documentation": "https://github.com/coltondick/ansible_playbook_monitor",
   "integration_type": "service",
-  "issue_tracker": "https://github.com/coltondick/ansible_playbook_monitor/issues"
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/coltondick/ansible_playbook_monitor/issues",
+  "requirements": [],
+  "version": "0.1.1"
 }
