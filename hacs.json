@@ -1,0 +1,8 @@
+{
+  "name": "Ansible Playbook Monitor",
+  "content_in_root": false,
+  "domains": ["ansible_playbook_monitor"],
+  "country": "Worldwide",
+  "homeassistant": "2023.5.0",
+  "render_readme": true
+}

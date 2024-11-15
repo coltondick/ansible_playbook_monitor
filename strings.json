@@ -1,0 +1,11 @@
+{
+  "title": "Ansible Playbook Monitor",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Ansible Playbook Monitor",
+        "description": "Set up Ansible Playbook Monitor integration."
+      }
+    }
+  }
+}
