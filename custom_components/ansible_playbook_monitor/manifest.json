@@ -1,0 +1,15 @@
+{
+    "domain": "ansible_playbook_monitor",
+    "name": "Ansible Playbook Monitor",
+    "codeowners": [
+        "@coltondick"
+    ],
+    "config_flow": true,
+    "dependencies": [],
+    "documentation": "https://github.com/coltondick/ansible_playbook_monitor",
+    "integration_type": "service",
+    "iot_class": "cloud_polling",
+    "issue_tracker": "https://github.com/coltondick/ansible_playbook_monitor/issues",
+    "requirements": [],
+    "version": "0.1.0"
+}

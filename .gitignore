@@ -1,0 +1,44 @@
+# Python cache and environment files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Home Assistant custom components
+custom_components/__pycache__/
+
+# Virtual environment
+.env/
+venv/
+ENV/
+env/
+.venv/
+.env
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.DS_Store
+*.log
+
+# Test and coverage files
+.coverage
+.coverage.*
+.cache/
+pytest_cache/
+.tox/
+.nox/
+.mypy_cache/
+.pytest_cache/
+
+# Distribution files
+*.egg-info/
+build/
+dist/
+
+# Temporary files
+*.tmp
+*.bak
+*.old
