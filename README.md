@@ -6,6 +6,7 @@ A custom integration for [Home Assistant](https://www.home-assistant.io/) to mon
 
 - **Dynamic Sensors**: Automatically creates sensor entities for Ansible playbooks as updates are received.
 - **Real-Time Updates**: Reflects the latest status of playbooks (`started`, `completed`, `failed`, etc.).
+- **Attributes Support**: Allows additional metadata to be sent with playbook updates, such as stage, datetime, and result.
 - **Secure Webhook**: Supports API key validation to ensure only authorized sources can update statuses.
 - **Persistent Notifications**: Displays the generated API key during setup for secure access.
 
@@ -162,7 +163,7 @@ curl -X POST \
         headers:
           Authorization: "Bearer YOUR_API_KEY" # Replace with your actual API key
           Content-Type: "application/json"
-        body: '{"playbook": "deploy_app", "status": "completed"}'
+        body: '{"playbook": "deploy_app", "status": "completed", "attributes": {"stage": "finalizing", "datetime": "{{ ansible_date_time.iso8601 }}", "result": "success"}}'
         body_format: json
 ```
 
@@ -196,7 +197,7 @@ curl -X POST \
             headers:
               Authorization: "Bearer YOUR_API_KEY" # Replace with your actual API key
               Content-Type: "application/json"
-            body: '{"playbook": "deploy_app", "status": "failed"}'
+            body: '{"playbook": "deploy_app", "status": "failed", "attributes": {"stage": "error_handling", "datetime": "{{ ansible_date_time.iso8601 }}", "result": "failure"}}'
             body_format: json
       when: result is defined and result.failed
 
