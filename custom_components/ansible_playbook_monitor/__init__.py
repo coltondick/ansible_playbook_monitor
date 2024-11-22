@@ -41,13 +41,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         data = await request.json()
         playbook = data.get("playbook")
         status = data.get("status")
+        attributes = data.get("attributes", {})  # Ensure attributes defaults to a dict
 
         if not playbook or not status:
-            _LOGGER.warning("Invalid webhook data received.")
+            _LOGGER.warning("Invalid webhook data received: %s", data)
             return
 
-        _LOGGER.info(f"Updating playbook {playbook} with status {status}")
-        async_dispatcher_send(hass, DISPATCHER_SIGNAL, playbook, status)
+        _LOGGER.debug(
+            "Webhook received: playbook='%s', status='%s', attributes='%s'",
+            playbook,
+            status,
+            attributes,
+        )
+
+        # Dispatch signal to update sensors
+        async_dispatcher_send(hass, DISPATCHER_SIGNAL, playbook, status, attributes)
 
     # Register the webhook
     webhook_async_register(
