@@ -54,34 +54,39 @@ def get_release_notes():
 
 
 def update_version_in_files(version):
-    """Update the version in relevant project files."""
-    print(f"Updating version to {version} in project files...")
-    files_to_update = ["manifest.json"]
+    """Update the version in the manifest.json file."""
+    # Retrieve the manifest.json path from .env
+    manifest_path = os.getenv("MANIFEST_JSON_PATH")
 
-    for file_path in files_to_update:
-        if os.path.exists(file_path):
-            try:
-                # Load the JSON file
-                with open(file_path, "r") as file:
-                    data = json.load(file)
+    if not manifest_path:
+        print("Error: MANIFEST_JSON_PATH not set in .env file.")
+        return
 
-                # Update the version
-                if "version" in data:
-                    old_version = data["version"]
-                    data["version"] = version
-                    print(
-                        f"Updated version from {old_version} to {version} in {file_path}"
-                    )
+    print(f"Updating version to {version} in project file: {manifest_path}")
 
-                    # Write the changes back to the file
-                    with open(file_path, "w") as file:
-                        json.dump(data, file, indent=4)
-                else:
-                    print(f"No 'version' key found in {file_path}. Skipping.")
-            except json.JSONDecodeError as e:
-                print(f"Error decoding JSON in {file_path}: {e}")
-        else:
-            print(f"File {file_path} not found. Skipping.")
+    if os.path.exists(manifest_path):
+        try:
+            # Load the JSON file
+            with open(manifest_path, "r") as file:
+                data = json.load(file)
+
+            # Update the version
+            if "version" in data:
+                old_version = data["version"]
+                data["version"] = version
+                print(
+                    f"Updated version from {old_version} to {version} in {manifest_path}"
+                )
+
+                # Write the changes back to the file
+                with open(manifest_path, "w") as file:
+                    json.dump(data, file, indent=4)
+            else:
+                print(f"No 'version' key found in {manifest_path}. Skipping.")
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON in {manifest_path}: {e}")
+    else:
+        print(f"File {manifest_path} not found. Skipping.")
 
 
 def commit_and_tag_release(version, release_notes):
