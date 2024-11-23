@@ -1,4 +1,5 @@
 from homeassistant import config_entries
+from homeassistant.components import persistent_notification
 import secrets
 import voluptuous as vol
 from . import DOMAIN
@@ -14,8 +15,9 @@ class AnsiblePlaybookMonitorConfigFlow(config_entries.ConfigFlow, domain=DOMAIN)
         api_key = secrets.token_hex(32)
 
         # Create a persistent notification to show the API key
-        self.hass.components.persistent_notification.create(
-            f"The API key for this integration is: {api_key}. "
+        persistent_notification.create(
+            self.hass,
+            f"The API key for this integration is: \n\n`{api_key}`\n\n"
             "Please save it, as it will not be displayed again.",
             title="Ansible Playbook Monitor Setup",
             notification_id=f"{DOMAIN}_api_key",
