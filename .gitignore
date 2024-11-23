@@ -42,3 +42,5 @@ dist/
 *.tmp
 *.bak
 *.old
+
+release_notes.txt
