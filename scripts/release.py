@@ -1,11 +1,22 @@
 import os
 import sys
 import subprocess
+import json
 import requests
+from dotenv import load_dotenv
 
-# Add your GitHub Personal Access Token here
-GITHUB_TOKEN = "your_github_personal_access_token"
-REPO_NAME = "coltondick/ansible_playbook_monitor"  # Format: username/repo
+# Load environment variables from a .env file
+load_dotenv()
+
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+if not GITHUB_TOKEN:
+    print("Error: GITHUB_TOKEN is not set in the .env file.")
+    sys.exit(1)
+
+REPO_NAME = os.getenv("REPO_NAME")
+if not REPO_NAME:
+    print("Error: REPO_NAME is not set in the .env file.")
+    sys.exit(1)
 
 
 def get_version_number():
@@ -49,14 +60,26 @@ def update_version_in_files(version):
 
     for file_path in files_to_update:
         if os.path.exists(file_path):
-            with open(file_path, "r") as file:
-                content = file.read()
-            updated_content = content.replace(
-                '"version": "0.1.2"', f'"version": "{version}"'
-            )
-            with open(file_path, "w") as file:
-                file.write(updated_content)
-            print(f"Updated {file_path}")
+            try:
+                # Load the JSON file
+                with open(file_path, "r") as file:
+                    data = json.load(file)
+
+                # Update the version
+                if "version" in data:
+                    old_version = data["version"]
+                    data["version"] = version
+                    print(
+                        f"Updated version from {old_version} to {version} in {file_path}"
+                    )
+
+                    # Write the changes back to the file
+                    with open(file_path, "w") as file:
+                        json.dump(data, file, indent=4)
+                else:
+                    print(f"No 'version' key found in {file_path}. Skipping.")
+            except json.JSONDecodeError as e:
+                print(f"Error decoding JSON in {file_path}: {e}")
         else:
             print(f"File {file_path} not found. Skipping.")
 
