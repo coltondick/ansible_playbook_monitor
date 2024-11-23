@@ -1,6 +1,11 @@
 import os
 import sys
 import subprocess
+import requests
+
+# Add your GitHub Personal Access Token here
+GITHUB_TOKEN = "your_github_personal_access_token"
+REPO_NAME = "coltondick/ansible_playbook_monitor"  # Format: username/repo
 
 
 def get_version_number():
@@ -85,6 +90,32 @@ def push_to_repository():
         sys.exit(1)
 
 
+def create_github_release(version, release_notes):
+    """Create a GitHub release."""
+    print("Creating a GitHub release...")
+    url = f"https://api.github.com/repos/{REPO_NAME}/releases"
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+    payload = {
+        "tag_name": f"v{version}",
+        "name": f"Version {version}",
+        "body": release_notes,
+        "draft": False,
+        "prerelease": False,
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+
+    if response.status_code == 201:
+        print("GitHub release created successfully.")
+    else:
+        print(f"Failed to create GitHub release: {response.status_code}")
+        print(response.json())
+        sys.exit(1)
+
+
 def main():
     # Fetch release version number
     version = get_version_number()
@@ -113,6 +144,9 @@ def main():
 
     # Push changes to the remote repository
     push_to_repository()
+
+    # Create GitHub release
+    create_github_release(version, release_notes)
 
     print(f"Release process for version {version} completed successfully!")
 
